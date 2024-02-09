@@ -1,4 +1,4 @@
-![Sample Image](/root/AirBnB_clone/images/hbnb_photo.png)
+![Sample Image](/images/hbnb_photo.png)
 ## AirBnB Clone Project - The Console
 
 ### Project Description
