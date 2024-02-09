@@ -24,6 +24,7 @@ The console integrates a parent class called `BaseModel` to streamline object in
 ### Usage
 
 Start the command interpreter:
+
 ./console.py
 
 #### Use your console.py in interactive mode as usual:
@@ -38,3 +39,13 @@ EOF  help  quit
 (hbnb)
 '''
 
+#### In non-interactive mode:
+'''
+$ echo "help" | ./console.py
+(hbnb)
+Documented commands (type help <topic>):
+
+========================================
+EOF  help  quit
+(hbnb)
+'''
