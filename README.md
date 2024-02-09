@@ -27,9 +27,12 @@ Start the command interpreter:
 ./console.py
 
 #### Use your console.py in interactive mode as usual:
-''' $ ./console.py
+''' 
+$ ./console.py
 (hbnb) help
 Documented commands (type help <topic>):
-========================================
+=======================================\
 EOF  help  quit
-(hbnb) '''
+(hbnb)
+'''
+
