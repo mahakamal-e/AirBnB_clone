@@ -118,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in self.classes_names:
             print("** class doesn't exist **")
             return
-        objs_class = models.storage.all()
+        objs_class = storage.all()
         list_of_str = [str(value) for key, value in objs_class.items()
                        if not class_name or key.startswith(class_name)]
         print(list_of_str)
@@ -142,13 +142,13 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return
         key = input_args[0] + "." + input_args[1]
-        objs_class = models.storage.all()
+        objs_class = storage.all()
         if key in objs_class:
             instance = objs_class[key]
             attribute_name = input_args[2]
             attribute_value = input_args[3]
             setattr(instance, attribute_name, attribute_value)
-            models.storage.save()
+            storage.save()
         else:
             print("** no instance found **")
 

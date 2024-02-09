@@ -1,4 +1,4 @@
-## AirBnB Clone - The Console
+## AirBnB Clone Project - The Console
 
 ### Project Description
 
