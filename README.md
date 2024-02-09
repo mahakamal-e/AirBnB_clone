@@ -21,13 +21,25 @@ The console integrates a parent class called `BaseModel` to streamline object in
 
 ### Getting Started
 
-#### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/airbnb-clone.git
-   cd airbnb-clone
-
 ### Usage
+
 Start the command interpreter:
 ./console.py
+
+#### Use your console.py in interactive mode as usual:
+
+$ ./console.py
+(hbnb) help
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb)
+
+#### In non-interactive mode:
+
+$ echo "help" | ./console.py
+(hbnb)
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb)
