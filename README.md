@@ -1,5 +1,5 @@
 ![Sample Image](/images/hbnb_photo.png)
-## AirBnB Clone Project - The Console
+# AirBnB Clone Project - The Console
 
 ### Project Description
 
@@ -28,7 +28,7 @@ Start the command interpreter:
 
 #### Use your console.py in interactive mode as usual:
 
-$ ./console.py
+./console.py
 (hbnb) help
 Documented commands (type help <topic>):
 ========================================
@@ -37,7 +37,7 @@ EOF  help  quit
 
 #### In non-interactive mode:
 
-$ echo "help" | ./console.py
+echo "help" | ./console.py
 (hbnb)
 Documented commands (type help <topic>):
 ========================================
