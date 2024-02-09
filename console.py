@@ -3,34 +3,23 @@
 
 import cmd
 from models.base_model import BaseModel
-import os
-import sys
-
-# Print current working directory
-print("Current Working Directory:", os.getcwd())
-
-# Print Python path
-print("Python Path:", sys.path)
-
 from models import storage
-# from models.user import User
-# from models.state import State
-# from models.city import City
-# from models.amenity import Amenity
-# from models.place import Place
-# from models.review import Review
-
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
     """ Implementation of class HBNBCommand """
     prompt = "(hbnb) "
 
-    classes_names = {"BaseModel": BaseModel}
-    # "State": State, "State": State,
-    #                 "City": City, "Amenity": Amenity,
-    #                 "Place": Place, "Review": Review, "User": User}
-    
+    classes_names = {"BaseModel": BaseModel, "User": User,
+                     "State": State, "City": City, "Amenity": Amenity,
+                     "Place": Place, "Review": Review}
+
     def emptyline(self):
         """ Do nothing on Empty line """
         pass
@@ -109,20 +98,24 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
         else:
             print("** no instance found **")
+    
 
     def do_all(self, line):
-        """ Method that prints all string representation,
-        of all instances based or not on the class name """
-        input_args = line.split()
-        class_name = input_args[0] if input_args else None
-        if class_name not in self.classes_names:
-            print("** class doesn't exist **")
-            return
-        objs_class = storage.all()
-        list_of_str = [str(value) for key, value in objs_class.items()
+       """
+       Method that prints all string representation,
+       of all instances based or not on the class name
+       """
+       input_args = line.split()
+       class_name = input_args[0] if input_args else None
+       if class_name not in self.classes_names:
+           print("** class doesn't exist **")
+           return
+       objs_class = storage.all()
+       list_of_str = [str(value) for key, value in objs_class.items()
                        if not class_name or key.startswith(class_name)]
-        print(list_of_str)
-    
+       print(list_of_str)
+
+
     def do_update(self, line):
         """Updates an instance based on the class name and id"""
         input_args = line.split()
@@ -145,9 +138,9 @@ class HBNBCommand(cmd.Cmd):
         objs_class = storage.all()
         if key in objs_class:
             instance = objs_class[key]
-            attribute_name = input_args[2]
-            attribute_value = input_args[3]
-            setattr(instance, attribute_name, attribute_value)
+            attr_name = input_args[2]
+            attr_value = input_args[3]
+            setattr(instance, attr_name, attr_value)
             storage.save()
         else:
             print("** no instance found **")
@@ -163,6 +156,62 @@ class HBNBCommand(cmd.Cmd):
     def help_quit(self):
         """ Help Message for Quit from the program """
         print("Quit command to exit the program")
+    
+    def default(self, line):
+        """
+        handle unknown or unsupported commands by parsing the input,
+        and attempting to call specific methods based on the structure of the command.
+        """
+        try:
+            split_input = line.split('.')
+            class_name = split_input[0]
+            command_name = split_input[1]
+            
+            if '(' in command_name:
+                split_res = command_name.split('(', 1)
+                command = split_res[0]
+                if len(split_res) > 1:
+                    arguments_str = split_res[1].rstrip(')').strip()
+                else:
+                    arguments_str = ""
+                
+                arguments = []  
+                if ',' in arguments_str:
+                    args_list = arguments_str.split(',')
+                    for arg in args_list:
+                       stripped_arg = arg.strip()
+                       arguments.append(stripped_arg)
+                else:
+                    arguments = [arguments_str]
+
+            else:
+                command = command_name
+                arguments = []
+
+            if class_name in self.classes_names:
+                cls = self.classes_names[class_name]
+
+                command_dispatch = {
+                    'all': self.do_all,
+                    'show': self.do_show,
+                    'destroy': self.do_destroy,
+                    'update': self.do_update,
+                    # Add more commands as needed
+                }
+
+                if command in command_dispatch:
+                    return command_dispatch[command](f"{class_name} {arguments[0]}")
+
+                print("*** Unknown command: {}".format(command))
+
+            else:
+                print(f"** class doesn't exist **")
+
+        except Exception as e:
+            print("*** Unknown syntax: {}".format(line))
+                
+        
+        
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
