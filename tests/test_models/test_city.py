@@ -19,7 +19,7 @@ class TestCityMethods(unittest.TestCase):
     def test_type_class(self):
         """ Test for type of class """
         self.assertEqual(City, type(City()))
-    
+
     def test_unique_ids(self):
         """ Test id """
         city1 = City()
@@ -29,7 +29,7 @@ class TestCityMethods(unittest.TestCase):
     def test_typeParent_class(self):
         """ Test Type of parent class """
         self.assertIsInstance(City(), BaseModel)
-  
+
     def test_init_method(self):
         """ Test cases for attr """
         city = City()
@@ -42,6 +42,7 @@ class TestCityMethods(unittest.TestCase):
         n = city.__class__.__name__
         result_str = f"[{n}] ({city.id}) <{city.__dict__}>"
         self.assertEqual(city.__str__(), result_str)
+
 
 if __name__ == "__main__":
     unittest.main()
