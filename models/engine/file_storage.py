@@ -26,6 +26,9 @@ class FileStorage:
         """
         Method that  sets in __objects the obj,
         with key <obj class name>.id
+
+        Args:
+           obj: obj will be set.
         """
         self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
