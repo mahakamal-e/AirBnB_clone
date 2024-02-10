@@ -145,19 +145,8 @@ class HBNBCommand(cmd.Cmd):
             instance = objs_class[key]
             attr_name = input_args[2]
             attr_value = input_args[3]
-
-            if hasattr(instance, attr_name):
-                try:
-                    attr_value = eval(attr_value)
-                except (NameError, SyntaxError):
-                    print("** invalid value format **")
-                    return
-
-                setattr(instance, attr_name, attr_value)
-                instance.updated_at = datetime.now()
-                storage.save()
-            else:
-                print("** no attribute found **")
+            setattr(instance, attr_name, attr_value)
+            storage.save()
         else:
             print("** no instance found **")
 
