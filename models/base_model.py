@@ -8,7 +8,7 @@ import models
 
 class BaseModel:
     """
-    Main class used defines all common attributes/methods for other classes
+    Main class that  defines all common attributes/methods for other classes
     """
     def __init__(self, *args, **kwargs):
         """
