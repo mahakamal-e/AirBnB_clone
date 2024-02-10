@@ -10,6 +10,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+from datetime import datetime
 
 
 class HBNBCommand(cmd.Cmd):
@@ -147,7 +148,7 @@ class HBNBCommand(cmd.Cmd):
 
             if hasattr(instance, attr_name):
                 try:
-                    attr_value = eval(attr_value_str)
+                    attr_value = eval(attr_value)
                 except (NameError, SyntaxError):
                     print("** invalid value format **")
                     return
