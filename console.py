@@ -161,6 +161,24 @@ class HBNBCommand(cmd.Cmd):
         """ Help Message for Quit from the program """
         print("Quit command to exit the program")
 
+    def do_count(self, line):
+        """
+        Method that counts the number of instances of a class
+
+        Usage: <class name>.count().
+        """
+        input_args = line.split()
+        class_name = input_args[0] if input_args else None
+        if class_name not in self.classes_names:
+            print("** class doesn't exist **")
+            return
+        count = 0
+        instance_dict = storage.all()
+        for key in instance_dict.keys():
+            if key.startswith(class_name + "."):
+                count += 1
+        print(count)
+
     def default(self, line):
         """
         handle unknown or unsupported commands by parsing the input,
@@ -201,6 +219,7 @@ class HBNBCommand(cmd.Cmd):
                     'show': self.do_show,
                     'destroy': self.do_destroy,
                     'update': self.do_update,
+                    'count': self.do_count,
                     # Add more commands as needed
                 }
 
