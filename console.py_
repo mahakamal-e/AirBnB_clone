@@ -120,7 +120,75 @@ class HBNBCommand(cmd.Cmd):
         list_of_str = [str(value) for key, value in objs_class.items()
                        if not class_name or key.startswith(class_name)]
         print(list_of_str)
+    
+    def do_update(self, line) -> None:
+        """Updates an instance based on the class name
+        and id by adding or updating attribute"""
+        def _check_class():
+            if not split_line:
+                print("** class name missing **")
+                return "exit"
+            elif split_line[0] not in self.classes_names:
+                print("** class doesn't exist **")
+                return "exit"
+        def _check_id():
+            if len(split_line) < 2:
+                print("** instance id missing **")
+                return "exit"
+        def _handle_dict():
+            if len(split_line) >= 4 and (split_line[3].startswith("{") or split_line[3].startswith("[")):
+                return "exit"
+        def _check_attribute_and_value():
+            if len(split_line) < 4:
+                print("** attribute name missing **")
+                return "exit"
+            elif len(split_line) < 5:
+                print("** value missing **")
+                return "exit"
+        def _split_line():
+            return line.split()
+        split_line = _split_line()
+        if _check_class() == "exit":
+            return
+        if _check_id() == "exit":
+            return
+        if _handle_dict() == "exit":
+            return
+        if _check_attribute_and_value() == "exit":
+            return
+        key = split_line[0] + "." + split_line[1]
+        storage.update(key, split_line[2], split_line[3])
+        storage.all()[key].save()
 
+    '''
+    def do_update(self, line) -> None:
+        """Updates an instance based on the class name
+        and id by adding or updating attribute"""
+        split_line = line.split()
+        # Check class name
+        if not split_line or split_line[0] not in self.classes_names:
+            print("** class name missing or doesn't exist **")
+            return
+        # Check instance ID
+        if len(split_line) < 2:
+            print("** instance id missing **")
+            return
+        # Handle dictionary-like input
+        if len(split_line) >= 4 and (split_line[3].startswith("{") or split_line[3].startswith("[")):
+            print("Dictionary-like input not supported")
+            return
+        # Check attribute name and value
+        if len(split_line) < 4:
+            print("** attribute name missing **")
+            return
+        elif len(split_line) < 5:
+            print("** value missing **")
+            return
+        key = split_line[0] + "." + split_line[1]
+        storage.update(key, split_line[2], split_line[3])
+        storage.all()[key].save()
+    '''
+    '''
     def do_update(self, line):
         """Updates an instance based on the class name and id"""
         input_args = line.split()
@@ -160,7 +228,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no attribute found **")
         else:
             print("** no instance found **")
-
+    '''
     def do_quit(self, line):
         """ quit from the program """
         return True
@@ -190,7 +258,7 @@ class HBNBCommand(cmd.Cmd):
             if key.startswith(class_name + "."):
                 count += 1
         print(count)
-    '''
+
     def default(self, line):
         """
         handle unknown or unsupported commands by parsing the input,
@@ -246,76 +314,7 @@ class HBNBCommand(cmd.Cmd):
 
         except Exception as e:
             print("*** Unknown syntax: {}".format(line))
-    '''
-    
-    def default(self, line):
-        """Handle Cmd methods."""
-        line_vector = line.split('.')
-        class_argument = line_vector[0]
 
-        if line_vector == []:
-            print("*** Unknown syntax: {}".format(line))
-            return
-
-        try:
-            line_vector = line_vector[1].split('(')
-            command = line_vector[0]
-
-            if command == 'all':  # <class name>.all
-                HBNBCommand.do_all(self, class_argument)  # all BaseModel
-
-            elif command == 'count':  # <class name>.count()
-                HBNBCommand.do_count(self, class_argument)
-
-            elif command == 'show':  # <class name>.show(<id>)
-                line_vector = line_vector[1].split(')')
-                id_argument = line_vector[0].strip("'\"")
-                argument = class_argument + ' ' + id_argument
-                HBNBCommand.do_show(self, argument)  # show BaseModel 123
-
-            elif command == 'destroy':  # <class name>.destroy(<id>)
-                line_vector = line_vector[1].split(')')
-                id_argument = line_vector[0].strip("'\"")
-                argument = class_argument + ' ' + id_argument
-                HBNBCommand.do_destroy(self, argument)  # destroy BaseModel 122
-
-            elif command == 'update':
-                line_vector = line_vector[1].split(',')
-                id_argument = line_vector[0].strip("'\"")
-                name_argument = line_vector[1].strip(',')
-                if "{" not in line:
-                    value_argument = line_vector[2]
-                    name_argument = name_argument.strip(" '\"")
-                    value_argument = value_argument.strip(' )')
-                if "{" in line:
-
-                    b1 = line.index('{')
-                    b2 = line.index('}')
-                    value_dict = line[b1 + 1: b2].replace(" ", "")
-                    value_dict_list = value_dict.split(",")
-
-                    for s in value_dict_list:
-                        s = s.split(":")
-                        argument = class_argument + ' ' + id_argument + \
-                            ' ' + s[0][1:-1] + ' ' + s[1]
-                        HBNBCommand.do_update(self, argument)
-                        key = class_argument + '.' + id_argument
-                        if key not in storage.all().keys():
-                            return
-                else:
-                    # If eval fails, use the attribute and value pattern
-                    argument = class_argument + ' ' + id_argument + \
-                        ' ' + name_argument + ' ' + value_argument
-                    HBNBCommand.do_update(self, argument)
-
-            else:
-                print("*** Unknown syntax: {}".format(line))
-                return
-
-        except IndexError:
-            print("*** Unknown syntax: {}".format(line))
-    
-    
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
