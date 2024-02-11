@@ -37,7 +37,6 @@ class TestHBNBCommand(unittest.TestCase):
             HBNBCommand().onecmd("\n")
             self.assertEqual("", f.getvalue())
 
-
     def test_create_command(self):
         """command create"""
         with patch('sys.stdout', new=StringIO()) as f:
