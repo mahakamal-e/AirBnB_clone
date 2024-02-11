@@ -38,9 +38,9 @@ class TestCityMethods(unittest.TestCase):
 
     def test_str_representation(self):
         """Test __str__ method for correct string representation"""
-        instance = City(id='123', name='example', value=42)
-        exr = "[City] (123) {'id': '123', 'name': 'example', 'value': 42}"
-        self.assertEqual(str(instance), exr_str)
+        instance = City(id='123', name='Maha', my_number=42)
+        exr = "[City] (123) {'id': '123', 'name': 'Maha', 'my_number': 42}"
+        self.assertEqual(str(instance), exr)
 
 
 if __name__ == "__main__":
