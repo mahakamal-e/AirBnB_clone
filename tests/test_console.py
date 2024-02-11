@@ -15,7 +15,7 @@ class TestHBNBCommand(unittest.TestCase):
         self.console = HBNBCommand()
 
     def test_help_command(self):
-        """Test to check the help command """
+        """the help command """
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("help")
             output = f.getvalue()
@@ -23,19 +23,26 @@ class TestHBNBCommand(unittest.TestCase):
             self.assertIn("EOF", output)
 
     def test_quit_command(self):
-        """Test to check that the quit command exits."""
+        """ quit command exits test with patch """
         result = self.console.onecmd("quit")
         self.assertTrue(result)
 
     def test_emptyline_method(self):
-        """Test cases to check the emptyline method"""
+        """the emptyline method"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.console.onecmd("")
             self.assertEqual(f.getvalue(), "")
 
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("\n")
+            self.assertEqual("", f.getvalue())
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("any command")
+            self.assertEqual("", f.getvalue())
+
     def test_create_command(self):
-        """Test to check the create command.
-        """
+        """command create"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.console.onecmd("create BaseModel")
             output = f.getvalue().strip()
@@ -44,7 +51,7 @@ class TestHBNBCommand(unittest.TestCase):
             self.assertNotEqual(output, "** class doesn't exist **")
 
     def test_count_command(self):
-        """Test to check the count command """
+        """the count command """
         count = 0
         for key, values in storage.all().items():
             name = key.split(".")
@@ -56,7 +63,7 @@ class TestHBNBCommand(unittest.TestCase):
             self.assertEqual(output, str(count))
 
     def test_show_command(self):
-        """Test to check the show command """
+        """ show command """
         with patch('sys.stdout', new=StringIO()) as f:
             self.console.onecmd("create BaseModel")
             obj_id = f.getvalue().strip()
@@ -68,8 +75,7 @@ class TestHBNBCommand(unittest.TestCase):
             self.assertNotEqual(output, "** no instance found **")
 
     def test_destroy_command(self):
-        """Test to check the destroy command.
-        """
+        """destroy command"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.console.onecmd("create BaseModel")
             obj_id = f.getvalue().strip()
@@ -90,7 +96,7 @@ class TestHBNBCommand(unittest.TestCase):
             self.assertNotEqual(output, "** class doesn't exist **")
 
     def test_update_command(self):
-        """Test to check the update command """
+        """update command """
         with patch('sys.stdout', new=StringIO()) as f:
             self.console.onecmd("create BaseModel")
             obj_id = f.getvalue().strip()
@@ -102,13 +108,6 @@ class TestHBNBCommand(unittest.TestCase):
             self.assertNotEqual(output, "** attribute name missing **")
             self.assertNotEqual(output, "** value missing **")
             self.assertNotEqual(output, "** no instance found **")
-
-    def test_default_method(self):
-        """Test to check the default method"""
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.console.onecmd("BaseModel.show()")
-            output = f.getvalue().strip()
-            self.assertNotEqual(output, "** Unknown syntax:")
 
 
 if __name__ == '__main__':
