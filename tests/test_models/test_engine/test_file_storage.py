@@ -2,9 +2,11 @@
 """ Test Module for class FileStorage """
 
 import unittest
+import models
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 import os
+from unittest.mock import patch
 
 
 class TestFileStorage(unittest.TestCase):
@@ -55,6 +57,20 @@ class TestFileStorage(unittest.TestCase):
         test_obj = BaseModel()
         f_storage.new(test_obj)
         f_storage.save()
+
+    def test_save_reload(self):
+        """Test save and reload methods"""
+        initial_objects_count = len(models.storage.all())
+        test_model = BaseModel()
+        test_model.save()
+        models.storage._FileStorage__objects = {}
+        models.storage.reload()
+        self.assertIn(
+            f"{test_model.__class__.__name__}.{test_model.id}",
+            models.storage.all()
+        )
+        final_objects_count = len(models.storage.all())
+        self.assertEqual(initial_objects_count + 1, final_objects_count)
 
 
 if __name__ == "__main__":

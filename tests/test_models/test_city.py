@@ -13,7 +13,7 @@ class TestCityMethods(unittest.TestCase):
     def setUp(self):
         """ Method that calls befor each test case """
         city = City()
-        city.name = "Ali"
+        city.name = "Maha"
         city.id = "123-123-123"
 
     def test_type_class(self):
@@ -36,12 +36,11 @@ class TestCityMethods(unittest.TestCase):
         self.assertEqual(city.name, "")
         self.assertEqual(city.state_id, "")
 
-    def test_str_method(self):
-        """ Test case for __str__ method """
-        city = City()
-        n = city.__class__.__name__
-        result_str = f"[{n}] ({city.id}) <{city.__dict__}>"
-        self.assertEqual(city.__str__(), result_str)
+    def test_str_representation(self):
+        """Test __str__ method for correct string representation"""
+        instance = City(id='123', name='example', value=42)
+        exr = "[City] (123) {'id': '123', 'name': 'example', 'value': 42}"
+        self.assertEqual(str(instance), exr_str)
 
 
 if __name__ == "__main__":
