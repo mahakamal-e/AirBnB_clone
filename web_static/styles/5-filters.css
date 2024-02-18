@@ -1,0 +1,18 @@
+.filters {
+    height: 100%;
+    width: 25%;
+    border: 1px #DDDDDD solid;
+    border-radius: 4px;
+    position: relative;
+}
+
+.locations,
+.amenities {
+    height: 100%;
+    width: 25%;
+    display: inline-block;
+}
+
+
+
+
